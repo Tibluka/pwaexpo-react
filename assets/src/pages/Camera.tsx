@@ -4,22 +4,18 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera as ExpoCamera, CameraType } from 'expo-camera';
 
 const Camera: React.FC = () => {
-    const [hasPermission, setHasPermission] = useState<any>(null);
+    const [hasPermission, setHasPermission] = ExpoCamera.useCameraPermissions();
     const [type, setType] = useState(CameraType.back);
 
     useEffect(() => {
         (async () => {
-            const { status } = await ExpoCamera.requestCameraPermissionsAsync();
-            setHasPermission(status === 'granted');
         })();
     }, []);
 
     if (hasPermission === null) {
         return <View />;
     }
-    if (hasPermission === false) {
-        return <Text>No access to camera</Text>;
-    }
+
 
     function alertCode(code: any) {
         alert(code.data)
