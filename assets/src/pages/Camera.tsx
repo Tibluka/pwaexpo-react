@@ -31,15 +31,6 @@ const Camera: React.FC = () => {
                         BarCodeScanner.Constants.BarCodeType.barCodeTypes
                     ]
                 }}>
-                <View style={styles.buttonContainer}>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => {
-                            setType(type === CameraType.back ? CameraType.front : CameraType.back);
-                        }}>
-                        <Text style={styles.text}> Flip </Text>
-                    </TouchableOpacity>
-                </View>
             </ExpoCamera>
         </View>
     )
