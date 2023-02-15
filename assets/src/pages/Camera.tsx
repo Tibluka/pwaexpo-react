@@ -28,8 +28,7 @@ const Camera: React.FC = () => {
                 barCodeScannerSettings={{
                     barCodeTypes: [
                         BarCodeScanner.Constants.BarCodeType.qr,
-                        BarCodeScanner.Constants.BarCodeType.codabar,
-                        BarCodeScanner.Constants.BarCodeType.code39
+                        BarCodeScanner.Constants.BarCodeType.code128
                     ]
                 }}>
             </ExpoCamera>
