@@ -14,10 +14,12 @@ const Camera: React.FC = () => {
 
     function changeCamera() {
         setBlockCamera(true);
-        type == CameraType.back ?
-            setType(CameraType.front) :
-            setType(CameraType.back)
-        setBlockCamera(false);
+        setTimeout(() => {
+            type == CameraType.back ?
+                setType(CameraType.front) :
+                setType(CameraType.back)
+            setBlockCamera(false);
+        }, 100);
     }
 
     return (
