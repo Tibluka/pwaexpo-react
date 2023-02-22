@@ -1,30 +1,32 @@
-import React, { useEffect, useState } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera as ExpoCamera, CameraType } from 'expo-camera';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Camera: React.FC = () => {
-    const [hasPermission, setHasPermission] = ExpoCamera.useCameraPermissions();
-    const [type, setType] = useState(CameraType.back);
+    const [hasPermission, setHasPermission] = useState(ExpoCamera.useCameraPermissions())
+    const [type, setType] = useState<any>(CameraType.back);
+    const [blockCamera, setBlockCamera] = useState(false);
 
-    useEffect(() => {
-        (async () => {
-        })();
-    }, []);
-
-    if (hasPermission === null) {
+    if (hasPermission === null || blockCamera === true) {
         return <View />;
     }
 
-
-    function alertCode(code: any) {
-        alert(code.data)
+    function changeCamera() {
+        setBlockCamera(true);
+        setTimeout(() => {
+            type == CameraType.back ?
+                setType(CameraType.front) :
+                setType(CameraType.back)
+            setBlockCamera(false);
+        }, 3000);
     }
 
     return (
         <View style={styles.container}>
             <ExpoCamera style={styles.camera} type={type}
-                onBarCodeScanned={(code) => alertCode(code)}
+
+                onBarCodeScanned={(code) => alert(code.data)}
                 barCodeScannerSettings={{
                     barCodeTypes: [
                         BarCodeScanner.Constants.BarCodeType.qr,
@@ -32,11 +34,7 @@ const Camera: React.FC = () => {
                     ]
                 }}
                 onMountError={(error) => alert(error)}>
-                <TouchableOpacity onPress={
-                    () => type == CameraType.back ?
-                        setType(CameraType.front) :
-                        setType(CameraType.back)
-                } style={styles.flipContainer}>
+                <TouchableOpacity onPress={() => changeCamera()} style={styles.flipContainer}>
                     <Text style={styles.text}>Flip camera</Text>
                 </TouchableOpacity>
             </ExpoCamera>
