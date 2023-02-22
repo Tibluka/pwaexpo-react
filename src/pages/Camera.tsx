@@ -30,7 +30,8 @@ const Camera: React.FC = () => {
                         BarCodeScanner.Constants.BarCodeType.qr,
                         BarCodeScanner.Constants.BarCodeType.code128
                     ]
-                }}>
+                }}
+                onMountError={(error) => alert(error)}>
                 <TouchableOpacity onPress={
                     () => type == CameraType.back ?
                         setType(CameraType.front) :
