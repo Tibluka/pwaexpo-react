@@ -1,15 +1,37 @@
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera as ExpoCamera, CameraType } from 'expo-camera';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Camera: React.FC = () => {
-    const [hasPermission, setHasPermission] = useState(ExpoCamera.useCameraPermissions())
+    const [hasPermission, setHasPermission] = useState(ExpoCamera.useCameraPermissions());
+    const [scannedContent, setScannedContent] = useState<string | null>(null);
     const [type, setType] = useState<any>(CameraType.back);
     const [blockCamera, setBlockCamera] = useState(false);
 
     if (hasPermission === null || blockCamera === true) {
         return <View />;
+    }
+
+    if (scannedContent !== null) {
+        return <View style={{ flex: 1 }}>
+            <View style={styles.scannedContent}>
+                <Text style={styles.titleText}>Scanned content</Text>
+                <Text>{scannedContent}</Text>
+            </View>
+
+            <Button
+                onPress={() => {
+                    setBlockCamera(false);
+                    setScannedContent(null);
+                }}
+                title="Scann another one"
+                color="#841584"
+                accessibilityLabel="Learn more about this purple button"
+            />
+
+        </View>;
+
     }
 
     function changeCamera() {
@@ -26,7 +48,9 @@ const Camera: React.FC = () => {
         <View style={styles.container}>
             <ExpoCamera style={styles.camera} type={type}
 
-                onBarCodeScanned={(code) => alert(code.data)}
+                onBarCodeScanned={(code) => {
+                    setScannedContent(code.data);
+                }}
                 barCodeScannerSettings={{
                     barCodeTypes: [
                         BarCodeScanner.Constants.BarCodeType.qr,
@@ -66,7 +90,18 @@ const styles = StyleSheet.create({
         transform: [
             { translateX: -50 },
         ],
+    },
+    scannedContent: {
+        width: '100%',
+        marginTop: 30,
+        padding: 20,
+        marginBottom: 20
+    },
+    titleText: {
+        fontSize: 18,
+        fontWeight: 'bold'
     }
+
 });
 
 
