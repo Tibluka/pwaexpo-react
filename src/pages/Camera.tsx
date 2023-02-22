@@ -31,6 +31,13 @@ const Camera: React.FC = () => {
                         BarCodeScanner.Constants.BarCodeType.code128
                     ]
                 }}>
+                <TouchableOpacity onPress={
+                    () => type == CameraType.back ?
+                        setType(CameraType.front) :
+                        setType(CameraType.back)
+                } style={styles.flipContainer}>
+                    <Text style={styles.text}>Flip camera</Text>
+                </TouchableOpacity>
             </ExpoCamera>
         </View>
     )
@@ -49,15 +56,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         margin: 20,
     },
-    button: {
-        flex: 0.1,
-        alignSelf: 'flex-end',
-        alignItems: 'center',
-    },
     text: {
         fontSize: 18,
         color: 'white',
     },
+    flipContainer: {
+        position: 'absolute',
+        bottom: 30,
+        left: '50%',
+        transform: [
+            { translateX: -50 },
+        ],
+    }
 });
 
 
