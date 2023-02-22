@@ -19,7 +19,7 @@ const Camera: React.FC = () => {
                 setType(CameraType.front) :
                 setType(CameraType.back)
             setBlockCamera(false);
-        }, 100);
+        }, 1);
     }
 
     return (
